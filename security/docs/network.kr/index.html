@@ -1,0 +1,1760 @@
+
+<!doctype html>
+<html lang="kr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>네트워크 보안 - EKS Best Practices Guides</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.2505c338.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+
+  <script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-VQGL8B2FH8"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-VQGL8B2FH8",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-VQGL8B2FH8",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          콘텐츠로 이동
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="EKS Best Practices Guides" class="md-header__button md-logo" aria-label="EKS Best Practices Guides" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EKS Best Practices Guides
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              네트워크 보안
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="검색" placeholder="검색" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="검색">
+        
+        <button type="reset" class="md-search__icon md-icon" title="지우기" aria-label="지우기" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            검색 초기화
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/aws/aws-eks-best-practices" title="저장소로 이동" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aws/aws-eks-best-practices
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="EKS Best Practices Guides" class="md-nav__button md-logo" aria-label="EKS Best Practices Guides" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    EKS Best Practices Guides
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/aws/aws-eks-best-practices" title="저장소로 이동" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aws/aws-eks-best-practices
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          Guides
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Guides" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Guides
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Introduction ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Security" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        Home ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../iam/" class="md-nav__link">
+        Identity and Access Management ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pods/" class="md-nav__link">
+        Pod Security ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multitenancy/" class="md-nav__link">
+        Multi-tenancy ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../detective/" class="md-nav__link">
+        Detective Controls ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network/" class="md-nav__link">
+        Network Security ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data/" class="md-nav__link">
+        Data Encryption and Secrets Management ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runtime/" class="md-nav__link">
+        Runtime Security ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hosts/" class="md-nav__link">
+        Infrastructure Security ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compliance/" class="md-nav__link">
+        Regulatory Compliance ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../incidents/" class="md-nav__link">
+        Incident Response and Forensics ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../image/" class="md-nav__link">
+        Image Security ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Cluster Autoscaling
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Cluster Autoscaling" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Cluster Autoscaling
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../karpenter/" class="md-nav__link">
+        Karpenter ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cluster-autoscaling/" class="md-nav__link">
+        Cluster-Autoscaler ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Reliability
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Reliability" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Reliability
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reliability/docs/" class="md-nav__link">
+        Home ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reliability/docs/application/" class="md-nav__link">
+        Applications ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reliability/docs/controlplane/" class="md-nav__link">
+        Control Plane ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reliability/docs/dataplane/" class="md-nav__link">
+        Data Plane ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Windows Containers
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Windows Containers" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Windows Containers
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/ami/" class="md-nav__link">
+        AMI Management ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/gmsa/" class="md-nav__link">
+        gMSA for Windows Containers ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/hardening/" class="md-nav__link">
+        Windows Server Hardening ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/images/" class="md-nav__link">
+        Scanning Windows Images ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/licensing/" class="md-nav__link">
+        Windows Versions and Licensing ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/logging/" class="md-nav__link">
+        Logging ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/monitoring/" class="md-nav__link">
+        Monitoring Windows Containers ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/networking/" class="md-nav__link">
+        Windows Networking ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/oom/" class="md-nav__link">
+        Memory and Systems Management ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/patching/" class="md-nav__link">
+        Infrastructure Management ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/scheduling/" class="md-nav__link">
+        Scheduling ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/security/" class="md-nav__link">
+        Pod Security for Windows Containers ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/storage/" class="md-nav__link">
+        Storage Options ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          Networking
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Networking" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Networking
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../networking/index/" class="md-nav__link">
+        Home ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../networking/subnets/" class="md-nav__link">
+        VPC and Subnet Considerations ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../networking/vpc-cni/" class="md-nav__link">
+        Amazon VPC CNI ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../networking/prefix-mode/index_linux/" class="md-nav__link">
+        Prefix Mode for Linux ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../networking/prefix-mode/index_windows/" class="md-nav__link">
+        Prefix Mode for Windows ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../networking/ipv6/" class="md-nav__link">
+        Running IPv6 Clusters ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../networking/sgpp/" class="md-nav__link">
+        Security Groups per Pod ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../networking/custom-networking/" class="md-nav__link">
+        Custom Networking ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../networking/loadbalancing/loadbalancing/" class="md-nav__link">
+        Load Balancing ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../networking/monitoring/" class="md-nav__link">
+        Monitoring for Network performance issues ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Scalability
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Scalability" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Scalability
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../scalability/docs/" class="md-nav__link">
+        Home ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../scalability/docs/control-plane/" class="md-nav__link">
+        Control Plane ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../scalability/docs/data-plane/" class="md-nav__link">
+        Data Plane ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../scalability/docs/cluster-services/" class="md-nav__link">
+        Cluster Services ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../scalability/docs/workloads/" class="md-nav__link">
+        Workloads ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../scalability/docs/scaling_theory/" class="md-nav__link">
+        The theory behind scaling ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../scalability/docs/kcp_monitoring/" class="md-nav__link">
+        Control plane monitoring ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../scalability/docs/node_efficiency/" class="md-nav__link">
+        Node efficiency and scaling ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../upgrades/" class="md-nav__link">
+        Cluster Upgrades ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="목차">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      목차
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    교통 통제
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    전송 중 암호화
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    네트워크 정책
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    추천
+  </a>
+  
+    <nav class="md-nav" aria-label="추천">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    기본 거부 정책 만들기
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns" class="md-nav__link">
+    DNS 쿼리를 허용하는 규칙 만들기
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    네임스페이스/팟 간의 트래픽 흐름을 선택적으로 허용하는 규칙을 점진적으로 추가
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    네트워크 트래픽 메타데이터 기록
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aws" class="md-nav__link">
+    AWS 로드 밸런서로 암호화 사용
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    추가 리소스
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    보안 그룹
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    전송 중 암호화
+  </a>
+  
+    <nav class="md-nav" aria-label="전송 중 암호화">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nitro" class="md-nav__link">
+    Nitro 인스턴스
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cni" class="md-nav__link">
+    컨테이너 네트워크 인터페이스(CNI)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    서비스 메시
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    인그레스 컨트롤러 및 로드 밸런서
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cert-manager-acm-ca" class="md-nav__link">
+    cert-manager가 있는 ACM 사설 CA
+  </a>
+  
+    <nav class="md-nav" aria-label="cert-manager가 있는 ACM 사설 CA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    설정 지침
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    추가 리소스
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    툴링
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/aws/aws-eks-best-practices/edit/master/docs/security/docs/network.kr.md" title="이 페이지를 편집" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+<ul>
+<li class="i18n-link i18n-link-found i18n-link-en"><a href="../../../security/docs/network/">{'name': 'English', 'build': True}</a></li>
+</ul>
+<h1 id="_1">네트워크 보안<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>네트워크 보안에는 여러 측면이 있습니다. 첫 번째는 서비스 간의 네트워크 트래픽 흐름을 제한하는 규칙 적용과 관련됩니다. 두 번째는 전송 중인 트래픽의 암호화와 관련이 있습니다. EKS에서 이러한 보안 조치를 구현하는 메커니즘은 다양하지만 종종 다음 항목을 포함합니다.</p>
+<h4 id="_2">교통 통제<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
+<ul>
+<li>네트워크 정책</li>
+<li>보안 그룹</li>
+</ul>
+<h4 id="_3">전송 중 암호화<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
+<ul>
+<li>서비스 메시</li>
+<li>컨테이너 네트워크 인터페이스(CNI)</li>
+<li>니트로 인스턴스</li>
+<li>cert-manager가 있는 ACM 사설 CA</li>
+</ul>
+<h2 id="_4">네트워크 정책<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>Kubernetes 클러스터 내에서 모든 포드 간 통신은 기본적으로 허용됩니다. 이러한 유연성은 실험을 촉진하는 데 도움이 될 수 있지만 안전한 것으로 간주되지는 않습니다. Kubernetes 네트워크 정책은 Pod 간(종종 East/West 트래픽이라고 함) 및 Pod와 외부 서비스 간의 네트워크 트래픽을 제한하는 메커니즘을 제공합니다. Kubernetes 네트워크 정책은 OSI 모델의 계층 3과 4에서 작동합니다. 네트워크 정책은 팟 선택기 및 레이블을 사용하여 소스 및 대상 팟을 식별하지만 IP 주소, 포트 번호, 프로토콜 번호 또는 이들의 조합을 포함할 수도 있습니다. <a href="https://docs.projectcalico.org/introduction/"> Calico </a> 는 EKS와 잘 작동하는 <a href="https://tigera.io"> Tigera </a> 의 오픈 소스 정책 엔진입니다 . 전체 Kubernetes 네트워크 정책 기능 세트를 구현하는 것 외에도 Calico는 Istio와 통합될 때 HTTP와 같은 계층 7 규칙 지원을 포함하여 더 풍부한 기능 세트로 확장된 네트워크 정책을 지원합니다. Isovalent, <a href="https://cilium.readthedocs.io/en/stable/intro/"> Cilium </a>의 관리자는 HTTP와 같은 계층 7 규칙에 대한 부분 지원을 포함하도록 네트워크 정책을 확장했습니다. Cilium은 또한 Kubernetes Services/Pod와 VPC 내부 또는 외부에서 실행되는 리소스 간의 트래픽을 제한하는 데 유용할 수 있는 DNS 호스트 이름을 지원합니다. 반대로 Calico Enterprise에는 Kubernetes 네트워크 정책을 AWS 보안 그룹과 DNS 호스트 이름에 매핑할 수 있는 기능이 포함되어 있습니다.</p>
+<div class="admonition 주목">
+<p class="admonition-title">주목</p>
+</div>
+<p>EKS 클러스터를 처음 프로비저닝할 때 Calico 정책 엔진은 기본적으로 설치되지 않습니다. Calico 설치를 위한 매니페스트는 VPC CNI 리포지토리(<a href="https://github.com/aws/"> https://github.com/aws/amazon-vpc-cni-k8s/tree/master/config </a>에서 찾을 수 있습니다. amazon-vpc-cni-k8s/tree/master/config ).</p>
+<p>Calico 정책은 네임스페이스, 포드, 서비스 계정 또는 전역으로 범위가 지정될 수 있습니다. 정책 범위가 서비스 계정으로 지정되면 수신/발신 규칙 집합을 해당 서비스 계정과 연결합니다. 적절한 RBAC 규칙을 사용하면 팀이 이러한 규칙을 재정의하지 못하도록 방지하여 IT 보안 전문가가 네임스페이스 관리를 안전하게 위임할 수 있습니다.</p>
+<p>일반적인 Kubernetes 네트워크 정책 목록은 <a href="https://github.com/ahmetb/kubernetes-network-policy-recipes"> https://github.com/ahmetb/kubernetes-network-policy-recipes </a>에서 찾을 수 있습니다. Calico에 대한 유사한 규칙 세트는 <a href="https://docs.projectcalico.org/security/calico-network-policy"> https://docs.projectcalico.org/security/calico-network-policy </a>에서 사용할 수 있습니다.</p>
+<h2 id="_5">추천<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h3 id="_6">기본 거부 정책 만들기<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p>RBAC 정책과 마찬가지로 네트워크 정책은 최소 권한 액세스 정책을 준수해야 합니다. 네임스페이스로부터의 모든 인바운드 및 아웃바운드 트래픽을 제한하는 모두 거부 정책을 생성하여 시작하거나 Calico를 사용하여 글로벌 정책을 생성하십시오.</p>
+<p><em>쿠버네티스 네트워크 정책</em>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">apiVersion </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">networking.k8s.io/v1</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">종류 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NetworkPolicy</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nt">메타데이터 </span><span class="p">:</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">이름 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">기본 거부</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">네임스페이스 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">기본값</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nt">사양 </span><span class="p">:</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="nt">포드 선택기 </span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">  </span><span class="nt">정책 유형 </span><span class="p">:</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">인 그레스</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">이그레스</span>
+</code></pre></div></p>
+<p><img alt="" src="../images/default-deny.jpg" /></p>
+<div class="admonition 팁">
+<p class="admonition-title">팁</p>
+</div>
+<p>위 이미지는 <a href="https://orca.tufin.io/netpol/"> Tufin </a>의 네트워크 정책 뷰어로 생성되었습니다.</p>
+<p><em>Calico 글로벌 네트워크 정책</em>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">apiVersion </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">crd.projectcalico.org/v1</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">종류 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GlobalNetworkPolicy</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nt">메타데이터 </span><span class="p">:</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">이름 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">기본 거부</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nt">사양 </span><span class="p">:</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nt">선택자 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">모두()</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="nt">유형 </span><span class="p">:</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">인 그레스</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">이그레스</span>
+</code></pre></div></p>
+<h3 id="dns">DNS 쿼리를 허용하는 규칙 만들기<a class="headerlink" href="#dns" title="Permanent link">&para;</a></h3>
+<p>기본 거부 모든 규칙을 적용한 후에는 포드가 이름 확인을 위해 CoreDNS를 쿼리하도록 허용하는 전역 규칙과 같은 추가 규칙에 계층화를 시작할 수 있습니다. 네임스페이스에 레이블을 지정하여 시작합니다.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>kubectl 레이블 네임스페이스 kube-system 이름=kube-system
+</code></pre></div>
+<p>그런 다음 네트워크 정책을 추가합니다.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">apiVersion </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">networking.k8s.io/v1</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nt">종류 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NetworkPolicy</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nt">메타데이터 </span><span class="p">:</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">이름 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">허용-dns-액세스</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="nt">네임스페이스 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">기본값</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="nt">사양 </span><span class="p">:</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="nt">포드 선택기 </span><span class="p">:</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="nt">일치 라벨 </span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="nt">정책 유형 </span><span class="p">:</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">이그레스</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">출구</span><span class="w"> </span><span class="p p-Indicator">:</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">에 </span><span class="p">:</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">네임스페이스 선택기 </span><span class="p">:</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">        </span><span class="nt">일치 라벨 </span><span class="p">:</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">          </span><span class="nt">이름 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kube-system</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">  </span><span class="w w-Error">  </span><span class="nt">포트 </span><span class="p">:</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">프로토콜 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">UDP</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">포트</span><span class="w"> </span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">53</span>
+</code></pre></div>
+<p><img alt="" src="../images/allow-dns-access.jpg" /></p>
+<p><em>Calico 글로벌 정책 등가물</em></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">apiVersion </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">crd.projectcalico.org/v1</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nt">종류 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GlobalNetworkPolicy</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nt">메타데이터 </span><span class="p">:</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nt">이름 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">allow-dns-egress</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nt">사양 </span><span class="p">:</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span><span class="nt">선택자 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">모두()</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span><span class="nt">유형 </span><span class="p">:</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">이그레스</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">출구</span><span class="w"> </span><span class="p p-Indicator">:</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">조치 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">허용</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">프로토콜</span><span class="w"> </span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">UDP</span><span class="w">  </span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">목적지</span><span class="w"> </span><span class="p p-Indicator">:</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">      </span><span class="nt">namespaceSelector </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">이름 == &quot;kube-시스템&quot;</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">      </span><span class="nt">포트 </span><span class="p">:</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">53</span>
+</code></pre></div>
+<p>다음은 readonly-sa-group과 연결된 사용자가 기본 네임스페이스에서 my-sa 서비스 계정을 편집하지 못하도록 하면서 네트워크 정책을 서비스 계정과 연결하는 방법의 예입니다.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">api버전 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nt">종류 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ServiceAccount</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nt">메타데이터 </span><span class="p">:</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">이름 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">마이사</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="nt">네임스페이스 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">기본값</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="nt">라벨 </span><span class="p">:</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="nt">이름 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">마이사</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="nn">---</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="nt">apiVersion </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rbac.authorization.k8s.io/v1</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="nt">종류 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">역할</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="nt">메타데이터 </span><span class="p">:</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">  </span><span class="nt">네임스페이스 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">기본값</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">  </span><span class="nt">이름 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">readonly-sa-role</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="nt">규칙 </span><span class="p">:</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="c1"># 주체가 my-sa라는 서비스 계정을 읽을 수 있도록 허용합니다.</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">api그룹 </span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="p p-Indicator">]</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">  </span><span class="nt">리소스 </span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="s">&quot;서비스</span><span class="nv"> </span><span class="s">계정&quot;</span><span class="w"> </span><span class="p p-Indicator">]</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">  </span><span class="nt">리소스 이름 </span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="s">&quot;my-sa&quot;</span><span class="w"> </span><span class="p p-Indicator">]</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">  </span><span class="nt">동사 </span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="s">&quot;get&quot;</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;watch&quot;</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;list&quot;</span><span class="w"> </span><span class="p p-Indicator">]</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="nn">---</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="nt">apiVersion </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rbac.authorization.k8s.io/v1</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="nt">종류 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">롤바인딩</span>
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="nt">메타데이터 </span><span class="p">:</span>
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="w">  </span><span class="nt">네임스페이스 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">기본값</span>
+<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="w">  </span><span class="nt">이름 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">readonly-sa-rolebinding</span>
+<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="c1"># readonly-sa-role을 readonly-sa-group이라는 RBAC 그룹에 바인드합니다.</span>
+<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="nt">과목 </span><span class="p">:</span>
+<a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">종류 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">그룹</span>
+<a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="w">  </span><span class="nt">이름 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">읽기 전용-sa-그룹</span>
+<a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a><span class="w">  </span><span class="nt">api 그룹 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rbac.authorization.k8s.io</span>
+<a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a><span class="nt">역할 참조 </span><span class="p">:</span>
+<a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a><span class="w">  </span><span class="nt">종류 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">역할</span>
+<a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a><span class="w">  </span><span class="nt">이름 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">readonly-sa-role</span>
+<a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a><span class="w">  </span><span class="nt">api 그룹 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rbac.authorization.k8s.io</span>
+<a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a><span class="nn">---</span>
+<a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a><span class="nt">apiVersion </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">crd.projectcalico.org/v1</span>
+<a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a><span class="nt">종류 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NetworkPolicy</span>
+<a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a><span class="nt">메타데이터 </span><span class="p">:</span>
+<a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a><span class="w">  </span><span class="nt">이름 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">netpol-sa-demo</span>
+<a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a><span class="w">  </span><span class="nt">네임스페이스 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">기본값</span>
+<a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a><span class="c1"># 참조하는 기본 네임스페이스의 서비스에 대한 모든 인그레스 트래픽을 허용합니다.</span>
+<a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a><span class="c1"># my-sa라는 서비스 계정</span>
+<a id="__codelineno-5-43" name="__codelineno-5-43" href="#__codelineno-5-43"></a><span class="nt">사양 </span><span class="p">:</span>
+<a id="__codelineno-5-44" name="__codelineno-5-44" href="#__codelineno-5-44"></a><span class="w">  </span><span class="nt">진입 </span><span class="p">:</span>
+<a id="__codelineno-5-45" name="__codelineno-5-45" href="#__codelineno-5-45"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">조치 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">허용</span>
+<a id="__codelineno-5-46" name="__codelineno-5-46" href="#__codelineno-5-46"></a><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">출처</span><span class="w"> </span><span class="p p-Indicator">:</span>
+<a id="__codelineno-5-47" name="__codelineno-5-47" href="#__codelineno-5-47"></a><span class="w">        </span><span class="nt">서비스 계정 </span><span class="p">:</span>
+<a id="__codelineno-5-48" name="__codelineno-5-48" href="#__codelineno-5-48"></a><span class="w">          </span><span class="nt">선택기 </span><span class="p">:</span><span class="w"> </span><span class="s">&#39;이름</span><span class="nv"> </span><span class="s">==</span><span class="nv"> </span><span class="s">&quot;my-sa&quot;&#39;</span>
+<a id="__codelineno-5-49" name="__codelineno-5-49" href="#__codelineno-5-49"></a><span class="w">  </span><span class="nt">선택자 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">모두()</span>
+</code></pre></div>
+<h3 id="_7">네임스페이스/팟 간의 트래픽 흐름을 선택적으로 허용하는 규칙을 점진적으로 추가<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>네임스페이스 내의 포드가 서로 통신하도록 허용하는 것으로 시작한 다음 해당 네임스페이스 내의 포드 간 통신을 추가로 제한하는 사용자 지정 규칙을 추가합니다.</p>
+<h3 id="_8">네트워크 트래픽 메타데이터 기록<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p><a href="https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html"> AWS VPC 흐름 로그 </a>는 원본 및 대상 IP 주소와 포트와 같은 VPC를 통해 흐르는 트래픽에 대한 메타데이터를 캡처합니다. 수락/삭제된 패킷과 함께. 이 정보를 분석하여 Pod를 포함하여 VPC 내의 리소스 간에 의심스럽거나 비정상적인 활동을 찾을 수 있습니다. 그러나 Pod의 IP 주소는 교체되는 경우가 많기 때문에 Flow Log만으로는 충분하지 않을 수 있습니다. Calico Enterprise는 팟(Pod) 레이블 및 기타 메타데이터로 플로우 로그를 확장하여 팟(Pod) 간의 트래픽 플로우를 더 쉽게 해독합니다.</p>
+<h3 id="aws">AWS 로드 밸런서로 암호화 사용<a class="headerlink" href="#aws" title="Permanent link">&para;</a></h3>
+<p><a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html"> AWS Application Load Balancer </a> (ALB) 및 <a href="https://docs.aws.amazon. com/elasticloadbalancing/latest/network/introduction.html"> Network Load Balancer </a>(NLB) 둘 다 전송 암호화(SSL 및 TLS)를 지원합니다. ALB에 대한 'alb.ingress.kubernetes.io/certificate-arn' 주석을 사용하면 ALB에 추가할 인증서를 지정할 수 있습니다. 주석을 생략하면 컨트롤러는 사용 가능한 <a href="https://docs.aws.amazon.com/acm/latest/userguide/acm- overview.html"> AWS Certificate Manager(ACM) </a> 호스트 필드를 사용하는 인증서. EKS v1.15부터는 아래 예와 같이 NLB와 함께 service.beta.kubernetes.io/aws-load-balancer-ssl-cert 주석을 사용할 수 있습니다.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">api버전 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nt">종류 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">서비스</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="nt">메타데이터 </span><span class="p">:</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="nt">이름 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">데모 앱</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span><span class="nt">네임스페이스 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">기본값</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">  </span><span class="nt">라벨 </span><span class="p">:</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="nt">앱 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">데모 앱</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">  </span><span class="nt">주석 </span><span class="p">:</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">     </span><span class="nt">service.beta.kubernetes.io/aws-load-balancer-type </span><span class="p">:</span><span class="w"> </span><span class="s">&quot;nlb&quot;</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">     </span><span class="nt">service.beta.kubernetes.io/aws-load-balancer-ssl-cert </span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&lt;인증서</span><span class="nv"> </span><span class="s">ARN&gt;&quot;</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">     </span><span class="nt">service.beta.kubernetes.io/aws-load-balancer-ssl-ports </span><span class="p">:</span><span class="w"> </span><span class="s">&quot;443&quot;</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">     </span><span class="nt">service.beta.kubernetes.io/aws-load-balancer-backend-protocol </span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http&quot;</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="nt">사양 </span><span class="p">:</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">  </span><span class="nt">유형 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">로드밸런서</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">  </span><span class="nt">포트 </span><span class="p">:</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">포트 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">443</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">대상포트</span><span class="w"> </span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">프로토콜</span><span class="w"> </span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TCP</span>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="w">  </span><span class="nt">선택기 </span><span class="p">:</span>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="w">    </span><span class="nt">앱 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">데모 앱</span>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="nn">---</span>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="nt">종류 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">배포</span>
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="nt">apiVersion </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">앱/v1</span>
+<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="nt">메타데이터 </span><span class="p">:</span>
+<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="w">  </span><span class="nt">이름 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a><span class="w">  </span><span class="nt">네임스페이스 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">기본값</span>
+<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a><span class="w">  </span><span class="nt">라벨 </span><span class="p">:</span>
+<a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a><span class="w">    </span><span class="nt">앱 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">데모 앱</span>
+<a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="nt">사양 </span><span class="p">:</span>
+<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a><span class="w">  </span><span class="nt">복제본 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a><span class="w">  </span><span class="nt">선택기 </span><span class="p">:</span>
+<a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a><span class="w">    </span><span class="nt">일치 라벨 </span><span class="p">:</span>
+<a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a><span class="w">      </span><span class="nt">앱 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">데모 앱</span>
+<a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a><span class="w">  </span><span class="nt">템플릿 </span><span class="p">:</span>
+<a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a><span class="w">    </span><span class="nt">메타데이터 </span><span class="p">:</span>
+<a id="__codelineno-6-36" name="__codelineno-6-36" href="#__codelineno-6-36"></a><span class="w">      </span><span class="nt">라벨 </span><span class="p">:</span>
+<a id="__codelineno-6-37" name="__codelineno-6-37" href="#__codelineno-6-37"></a><span class="w">        </span><span class="nt">앱 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">데모 앱</span>
+<a id="__codelineno-6-38" name="__codelineno-6-38" href="#__codelineno-6-38"></a><span class="w">    </span><span class="nt">사양 </span><span class="p">:</span>
+<a id="__codelineno-6-39" name="__codelineno-6-39" href="#__codelineno-6-39"></a><span class="w">      </span><span class="nt">용기 </span><span class="p">:</span>
+<a id="__codelineno-6-40" name="__codelineno-6-40" href="#__codelineno-6-40"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">이름 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<a id="__codelineno-6-41" name="__codelineno-6-41" href="#__codelineno-6-41"></a><span class="w">          </span><span class="l l-Scalar l-Scalar-Plain">이미지</span><span class="w"> </span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<a id="__codelineno-6-42" name="__codelineno-6-42" href="#__codelineno-6-42"></a><span class="w">          </span><span class="l l-Scalar l-Scalar-Plain">포트</span><span class="w"> </span><span class="p p-Indicator">:</span>
+<a id="__codelineno-6-43" name="__codelineno-6-43" href="#__codelineno-6-43"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">컨테이너 포트 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">443</span>
+<a id="__codelineno-6-44" name="__codelineno-6-44" href="#__codelineno-6-44"></a><span class="w">              </span><span class="l l-Scalar l-Scalar-Plain">프로토콜</span><span class="w"> </span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TCP</span>
+<a id="__codelineno-6-45" name="__codelineno-6-45" href="#__codelineno-6-45"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">컨테이너포트 </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
+<a id="__codelineno-6-46" name="__codelineno-6-46" href="#__codelineno-6-46"></a><span class="w">              </span><span class="l l-Scalar l-Scalar-Plain">프로토콜</span><span class="w"> </span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TCP</span>
+</code></pre></div>
+<h3 id="_9">추가 리소스<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://youtu.be/lEY2WnRHYpg"> Kubernetes &amp; Tigera: 네트워크 정책, 보안 및 감사 </a></li>
+<li><a href="https://www.tigera.io/tigera-products/calico-enterprise/"> Calico Enterprise </a></li>
+<li><a href="https://cilium.readthedocs.io/en/stable/intro/"> 섬모 </a></li>
+<li><a href="https://cilium.io/blog/2021/02/10/network-policy-editor"> NetworkPolicy Editor </a> Cilium의 대화형 정책 편집기</li>
+<li><a href="https://kinvolk.io/blog/2020/03/writing-kubernetes-network-policies-with-inspektor-gadgets-network-policy-advisor/"> Kinvolk의 네트워크 정책 어드바이저 </a> 분석을 기반으로 네트워크 정책 제안 네트워크 트래픽</li>
+</ul>
+<h2 id="_10">보안 그룹<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<p>EKS는 <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html"> AWS VPC 보안 그룹 </a>(SG)을 사용하여 Kubernetes 제어 플레인과 클러스터의 작업자 노드 간의 트래픽을 제어합니다. 보안 그룹은 작업자 노드와 다른 VPC 리소스 및 외부 IP 주소 간의 트래픽을 제어하는 데에도 사용됩니다. EKS 클러스터(Kubernetes 버전 1.14-eks.3 이상 포함)를 프로비저닝하면 클러스터 보안 그룹이 자동으로 생성됩니다. 이 보안 그룹은 EKS 컨트롤 플레인과 관리형 노드 그룹의 노드 간에 자유로운 통신을 허용합니다. 단순화를 위해 비관리 노드 그룹을 포함하여 모든 노드 그룹에 클러스터 SG를 추가하는 것이 좋습니다.</p>
+<p>Kubernetes 버전 1.14 및 EKS 버전 eks.3 이전에는 EKS 컨트롤 플레인 및 노드 그룹에 대해 별도의 보안 그룹이 구성되었습니다. 컨트롤 플레인 및 노드 그룹 보안 그룹에 대한 최소 및 제안 규칙은 <a href="https:// docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html"> https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html </a>. _ 컨트롤 플레인 보안 그룹_ 에 대한 최소 규칙 은 작업자 노드 SG에서 포트 443 인바운드를 허용합니다. 이 규칙은 kubelet이 Kubernetes API 서버와 통신할 수 있도록 허용합니다. 또한 작업자 노드 SG에 대한 아웃바운드 트래픽용 포트 10250도 포함합니다. 10250은 kubelet이 수신 대기하는 포트입니다. 마찬가지로 최소 <em>node group</em> 규칙은 컨트롤 플레인 SG에서 포트 10250 인바운드 및 컨트롤 플레인 SG로 아웃바운드 443을 허용합니다. 마지막으로 노드 그룹 내의 노드 간에 자유로운 통신을 허용하는 규칙이 있습니다.</p>
+<p>클러스터 내에서 실행되는 서비스와 RDS 데이터베이스와 같은 클러스터 외부에서 실행되는 서비스 간의 통신을 제어해야 하는 경우 <a href="https://docs.aws.amazon.com/eks/latest/ userguide/security-groups-for-pods.html"> 포드용 보안 그룹 </a>. Pod용 보안 그룹을 사용하면 <strong>기존</strong> 보안 그룹을 Pod 모음에 할당할 수 있습니다 .</p>
+<div class="admonition 경고">
+<p class="admonition-title">경고</p>
+</div>
+<p>포드 생성 전에 존재하지 않는 보안 그룹을 참조하는 경우 포드가 예약되지 않습니다.</p>
+<p><code>SecurityGroupPolicy</code> 객체 를 생성하고 <code>PodSelector</code> 또는 <code>ServiceAccountSelector</code> 를 지정 하여 보안 그룹에 할당되는 포드를 제어할 수 있습니다 . 선택기를 <code>{}</code> 로 설정하면 <code>SecurityGroupPolicy</code> 에서 참조되는 SG 를 네임스페이스의 모든 포드 또는 네임스페이스의 모든 서비스 계정에 할당합니다. 모든 <a href="https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html#security-groups-pods-considerations"> 고려 사항 </a> 을 숙지 했는지 확인하십시오 . 포드에 대한 보안 그룹을 구현하기 전에.</p>
+<div class="admonition 중요한">
+<p class="admonition-title">중요한</p>
+</div>
+<p>포드에 SG를 사용하는 경우 <strong>반드시</strong> 클러스터 보안 그룹에 대한 포트 53 아웃바운드를 허용하는 SG를 생성해야 합니다. 마찬가지로 포드 보안 그룹에서 포트 53 인바운드 트래픽을 수락하도록 클러스터 보안 그룹을 <strong>반드시</strong> 업데이트해야 합니다.</p>
+<div class="admonition 중요한">
+<p class="admonition-title">중요한</p>
+</div>
+<p><a href="https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html#vpc-limits-security-groups"> 보안 그룹에 대한 제한 </a>은 포드에 보안 그룹을 사용할 때 계속 적용됩니다. 따라서 신중하게 사용하십시오.</p>
+<div class="admonition 중요한">
+<p class="admonition-title">중요한</p>
+</div>
+<p>포드에 구성된 모든 프로브에 대해 클러스터 보안 그룹(kubelet)의 인바운드 트래픽에 대한 규칙을 <strong>반드시</strong> 생성 해야 합니다 .</p>
+<div class="admonition 경고">
+<p class="admonition-title">경고</p>
+</div>
+<p>현재 kubelet이 SG에 할당된 포드와 통신하지 못하게 하는 <a href="https://github.com/aws/amazon-vpc-cni-k8s/pull/1212"> 버그 </a>가 있습니다. 현재 해결 방법은 영향을 받는 작업자 노드에서 <code>sudo sysctl net.ipv4.tcp_early_demux=0</code> 을 실행하는 것입니다. 이것은 CNI v1.7.3에서 수정되었습니다. <a href="https://github.com/aws/amazon-vpc -cni-k8s/releases/tag/v1.7.3"> https://github.com/aws/amazon-vpc-cni-k8s/releases/tag/v1.7.3 </a>.</p>
+<div class="admonition 중요한">
+<p class="admonition-title">중요한</p>
+</div>
+<p>포드의 보안 그룹은 <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-eni.html"> ENI 트렁킹 </a>이라는 기능을 사용합니다. 이 기능은 포드의 ENI 밀도를 높이기 위해 생성되었습니다. EC2 인스턴스. 포드가 SG에 할당되면 VPC 컨트롤러는 노드 그룹의 분기 ENI를 포드와 연결합니다. 포드가 예약된 시점에 노드 그룹에서 사용할 수 있는 분기 ENI가 충분하지 않으면 포드는 보류 상태로 유지됩니다. 인스턴스가 지원할 수 있는 분기 ENI 수는 인스턴스 유형/패밀리에 따라 다릅니다. <a href="https://docs.aws.amazon.com/eks 참조 /latest/userguide/security-groups-for-pods.html#supported-instance-types"> https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html#supported-instance-types </a>에서 자세한 내용을 확인하세요.</p>
+<p>포드의 보안 그룹은 정책 데몬의 오버헤드 없이 클러스터 내부 및 외부의 네트워크 트래픽을 제어하는 AWS 고유의 방법을 제공하지만 다른 옵션도 사용할 수 있습니다. 예를 들어 Cilium 정책 엔진을 사용하면 네트워크 정책에서 DNS 이름을 참조할 수 있습니다. Calico Enterprise에는 네트워크 정책을 AWS 보안 그룹에 매핑하는 옵션이 포함되어 있습니다. Istio와 같은 서비스 메시를 구현한 경우 송신 게이트웨이를 사용하여 네트워크 송신을 특정 정규화된 도메인 또는 IP 주소로 제한할 수 있습니다. 이 옵션에 대한 자세한 내용은 <a href="https://istio.io/blog/2019/egress-traffic-control-in-istio-part-1/"> Istio의 송신 트래픽 제어 </a>에 대한 3 부작 시리즈를 읽어보십시오 .</p>
+<h2 id="_11">전송 중 암호화<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<p>PCI, HIPAA 또는 기타 규정을 준수해야 하는 애플리케이션은 전송 중인 데이터를 암호화해야 할 수 있습니다. 오늘날 TLS는 유선 트래픽을 암호화하기 위한 사실상의 선택입니다. 이전 SSL과 마찬가지로 TLS는 암호화 프로토콜을 사용하여 네트워크를 통해 보안 통신을 제공합니다. TLS는 세션 시작 시 협상되는 공유 암호를 기반으로 데이터를 암호화하는 키가 생성되는 대칭 암호화를 사용합니다. 다음은 Kubernetes 환경에서 데이터를 암호화할 수 있는 몇 가지 방법입니다.</p>
+<h3 id="nitro">Nitro 인스턴스<a class="headerlink" href="#nitro" title="Permanent link">&para;</a></h3>
+<p>다음 Nitro 인스턴스 유형 C5n, G4, I3en, M5dn, M5n, P3dn, R5dn 및 R5n 간에 교환되는 트래픽은 기본적으로 자동으로 암호화됩니다. 전송 게이트웨이 또는 로드 밸런서와 같은 중간 홉이 있는 경우 트래픽이 암호화되지 않습니다. <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/data-protection.html#encryption-transit"> 전송 중 암호화 </a> 및 다음 <a href="https://aws.amazon"> 새로운 기능 </a>을 참조하십시오. 자세한 내용은 .com/about-aws/whats-new/2019/10/introducing-amazon-ec2-m5n-m5dn-r5n-and-r5dn-instances-featuring-100-gbps-of-network-bandwidth/ ) 발표를 참조하십시오. .</p>
+<h3 id="cni">컨테이너 네트워크 인터페이스(CNI)<a class="headerlink" href="#cni" title="Permanent link">&para;</a></h3>
+<p><a href="https://www.weave.works/oss/net/"> WeaveNet </a>은 슬리브 트래픽에 NaCl 암호화를 사용하고 빠른 데이터 경로 트래픽에 IPsec ESP를 사용하여 모든 트래픽을 자동으로 암호화하도록 구성할 수 있습니다.</p>
+<h3 id="_12">서비스 메시<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<p>App Mesh, Linkerd v2 및 Istio와 같은 서비스 메시를 사용하여 전송 중 암호화를 구현할 수도 있습니다. AppMesh는 X.509 인증서 또는 Envoy의 SDS(Secret Discovery Service)로 <a href="https://docs.aws.amazon.com/app-mesh/latest/userguide/mutual-tls.html"> mTLS </a>를 지원합니다. Linkerd와 Istio는 모두 mTLS를 지원합니다.</p>
+<p><a href="https://github.com/aws/aws-app-mesh-examples"> aws-app-mesh-examples </a> GitHub 리포지토리는 X.509 인증서 및 SPIRE를 Envoy 컨테이너와 함께 SDS 공급자로 사용하여 mTLS를 구성하는 연습을 제공합니다. :</p>
+<ul>
+<li><a href="https://github.com/aws/aws-app-mesh-examples/tree/main/walkthroughs/howto-k8s-mtls-file-based"> X.509 인증서를 사용하여 mTLS 구성 </a></li>
+<li><a href="https://github.com/aws/aws-app-mesh-examples/tree/main/walkthroughs/howto-k8s-mtls-sds-based"> SPIRE(SDS)를 사용하여 TLS 구성 </a></li>
+</ul>
+<p>또한 App Mesh는 [ AWS Certificate Manager ] ( https ://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html ) (ACM) 또는 가상 노드의 로컬 파일 시스템에 저장된 인증서.</p>
+<p><a href="https://github.com/aws/aws-app-mesh-examples"> aws-app-mesh-examples </a> GitHub 리포지토리는 ACM에서 발급한 인증서 및 Envoy 컨테이너와 함께 패키징된 인증서를 사용하여 TLS를 구성하는 연습을 제공합니다. :
++ <a href="https://github.com/aws/aws-app-mesh-examples/tree/master/walkthroughs/howto-tls-file-provided"> 파일 제공 TLS 인증서로 TLS 구성 </a>
++ <a href="https://github.com/aws/aws-app-mesh-examples/tree/master/walkthroughs/tls-with-acm"> AWS Certificate Manager로 TLS 구성 </a></p>
+<h3 id="_13">인그레스 컨트롤러 및 로드 밸런서<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<p>수신 컨트롤러는 클러스터 외부에서 발생하는 HTTP/S 트래픽을 클러스터 내부에서 실행되는 서비스로 지능적으로 라우팅하는 방법입니다. 종종 이러한 Ingress는 Classic Load Balancer 또는 NLB(Network Load Balancer)와 같은 계층 4 로드 밸런서에 의해 전면에 배치됩니다. 암호화된 트래픽은 로드 밸런서, 인그레스 리소스 또는 포드와 같이 네트워크 내의 다른 위치에서 종료될 수 있습니다. SSL 연결을 종료하는 방법과 위치는 궁극적으로 조직의 네트워크 보안 정책에 따라 결정됩니다. 예를 들어 종단 간 암호화를 요구하는 정책이 있는 경우 Pod에서 트래픽을 해독해야 합니다. 이렇게 하면 초기 핸드셰이크를 설정하는 주기를 소비해야 하므로 Pod에 추가 부담이 가해집니다. 전반적인 SSL/TLS 처리는 CPU를 많이 사용합니다. 따라서 유연성이 있는 경우 인그레스 또는 로드 밸런서에서 SSL 오프로드를 수행해 보십시오.</p>
+<p>수신 컨트롤러는 SSL/TLS 연결을 종료하도록 구성할 수 있습니다. NLB에서 SSL/TLS 연결을 종료하는 방법에 대한 예는 <a href="#use-encryption-with-aws-load-balancers"> 위 </a>에 나와 있습니다. SSL/TLS 종료에 대한 추가 예는 아래에 나와 있습니다.</p>
+<ul>
+<li><a href="https://aws.amazon.com/blogs/containers/securing-eks-ingress-contour-lets-encrypt-gitops/"> Contour로 EKS 인그레스 보호 및 GitOps 방식 암호화 </a></li>
+<li><a href="https://aws.amazon.com/premiumsupport/knowledge-center/terminate-https-traffic-eks-acm/"> ACM을 사용하여 Amazon EKS 워크로드에서 HTTPS 트래픽을 종료하려면 어떻게 해야 합니까? </a></li>
+</ul>
+<div class="admonition 주목">
+<p class="admonition-title">주목</p>
+</div>
+<p>ALB 수신 컨트롤러와 같은 일부 수신은 수신 사양의 일부가 아닌 주석을 사용하여 SSL/TLS를 구현합니다.</p>
+<h3 id="cert-manager-acm-ca">cert-manager가 있는 ACM 사설 CA<a class="headerlink" href="#cert-manager-acm-ca" title="Permanent link">&para;</a></h3>
+<p>cert-manager ]( https://cert-manager.io/ ) 를 사용하여 수신, 포드 및 포드 간에 EKS 애플리케이션 워크로드를 보호할 수 있습니다 . 인증서를 배포, 갱신 및 취소하는 인기 있는 Kubernetes 추가 기능입니다. ACM 사설 CA는 자체 CA를 관리하는 선행 비용 및 유지 관리 비용이 없는 가용성이 높고 안전한 관리형 CA입니다. 기본 Kubernetes 인증 기관을 사용하는 경우 ACM Private CA를 통해 보안을 개선하고 규정 준수 요구 사항을 충족할 수 있습니다. ACM 사설 CA는 FIPS 140-2 레벨 3 하드웨어 보안 모듈(매우 안전함)의 개인 키를 보호하며, 이는 메모리에 인코딩된 키를 저장하는 기본 CA(덜 안전함)와 비교됩니다. 또한 중앙 집중식 CA 는 Kubernetes 환경 내부와 외부 모두에서 사설 인증서에 대해 더 많은 제어 기능과 향상된 감사 기능을 제공합니다. <a href="https://aws.amazon.com/certificate-manager/private-certificate-authority/"> 여기에서 ACM 사설 CA 및 그 이점에 대해 자세히 알아보십시오 </a>.</p>
+<h4 id="_14">설정 지침<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h4>
+<p>ACM 사설 CA 기술 문서 ]( https://docs.aws.amazon.com/acm-pca/latest/userguide/create-CA.html ) 에 제공된 절차에 따라 사설 CA 생성부터 시작하십시오 . 사설 CA가 있으면 <a href="https://cert-manager.io/docs/installation/"> 일반 설치 지침 </a>을 사용하여 cert-manager를 설치합니다. cert-manager를 설치한 후 <a href="https://github.com/cert-manager/aws-privateca-issuer#setup"> GitHub의 설정 지침 </a>에 따라 Private CA Kubernetes cert-manager 플러그인을 설치합니다. 플러그인을 사용하면 cert-manager가 ACM Private CA에서 사설 인증서를 요청할 수 있습니다.</p>
+<p>이제 cert-manager 및 플러그인이 설치된 사설 CA 및 EKS 클러스터가 있으므로 권한을 설정하고 발급자를 생성할 차례입니다. ACM Private CA에 대한 액세스를 허용하도록 EKS 노드 역할의 IAM 권한을 업데이트합니다. <code>&lt;CA_ARN&gt;</code> 을 사설 CA의 값으로 바꿉니다 .</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>{
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>&quot;버전&quot;: &quot;2012-10-17&quot;,
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>&quot;성명&quot;: [
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>{
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>&quot;시드&quot;: &quot;awspcaissuer&quot;,
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>&quot;동작&quot;: [
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>&quot;acm-pca:DescribeCertificateAuthority&quot;,
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>&quot;acm-pca:GetCertificate&quot;,
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>&quot;acm-pca:IssueCertificate&quot;
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>],
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>&quot;효과&quot;: &quot;허용&quot;,
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>&quot;리소스&quot;: &quot;&lt;CA_ARN&gt;&quot;
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>}
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>]
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>}
+</code></pre></div>
+<a href="https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html"> IAM 계정의 서비스 역할 또는 IRSA </a>도 사용할 수 있습니다. 전체 예제는 아래의 추가 리소스 섹션을 참조하십시오.</p>
+<p>다음 텍스트가 포함된 cluster-issuer.yaml이라는 사용자 지정 리소스 정의 파일을 생성하고 <code>&lt;CA_ARN&gt;</code> 및 <code>&lt;Region&gt;</code> 정보를 사설 CA 로 대체하여 Amazon EKS에서 발급자를 생성합니다.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>apiVersion: awspca.cert-manager.io/v1beta1
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>종류: AWSPCAClusterIssuer
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>메타데이터:
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>이름: 데모-테스트-루트-ca
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>투기:
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>안: &lt;CA_ARN&gt;
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>지역: &lt;지역&gt;
+</code></pre></div>
+<p>생성한 발급자를 배포합니다.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>kubectl 적용 -f 클러스터-issuer.yaml
+</code></pre></div>
+<p>EKS 클러스터는 사설 CA에서 인증서를 요청하도록 구성되어 있습니다. 이제 위에서 생성한 사설 CA 발급자로 'issuerRef' 필드의 값을 변경하여 cert-manager의 'Certificate' 리소스를 사용하여 인증서를 발급할 수 있습니다. 인증서 리소스 지정 및 요청 방법에 대한 자세한 내용은 cert-manager의 <a href="https://cert-manager.io/docs/usage/certificate/"> 인증서 리소스 가이드 </a>를 확인하세요. <a href="https://github.com/cert-manager/aws-privateca-issuer/tree/main/config/samples/"> 여기에서 예시 보기 </a>.</p>
+<h4 id="_15">추가 리소스<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://aws.amazon.com/blogs/security/tls-enabled-kubernetes-clusters-with-acm-private-ca -and-amazon-eks-2/"> EKS에서 TLS를 활성화하기 위해 cert-manager 및 ACM Private CA 플러그인을 구현하는 방법 </a>.</li>
+<li><a href="https://aws.amazon.com/blogs/containers/setting-up-end-to-end -tls-encryption-on-amazon-eks-with-the-new-aws-load-balancer-controller/"> 새로운 AWS 로드 밸런서 컨트롤러 및 ACM 사설 CA를 사용하여 Amazon EKS에서 종단 간 TLS 암호화 설정 </a>.</li>
+<li><a href="https://github.com/cert-manager/aws-privateca-issuer"> Github의 Private CA Kubernetes cert-manager 플러그인 </a>.</li>
+<li><a href="https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaKubernetes.html"> 사설 CA Kubernetes cert-manager 플러그인 사용자 가이드 </a>.</li>
+</ul>
+<h2 id="_16">툴링<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://itnext.io/verifying-service-mesh-tls-in-kubernetes-using-ksniff-and-wireshark-2e993b26bf95"> ksniff 및 Wireshark를 사용하여 Kubernetes에서 Service Mesh TLS 확인 </a></li>
+<li><a href="https://github.com/eldadru/ksniff"> ksniff </a></li>
+<li><a href="https://github.com/monzo/egress-operator"> egress-operator </a> 프로토콜 검사 없이 클러스터에서 나가는 트래픽을 제어하는 운영자 및 DNS 플러그인</li>
+</ul>
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["tabs", "content.code.copy", "announce.dismiss", "header.autohide"], "search": "../../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "\ud074\ub9bd\ubcf4\ub4dc\uc5d0 \ubcf5\uc0ac\ub428", "clipboard.copy": "\ud074\ub9bd\ubcf4\ub4dc\ub85c \ubcf5\uc0ac", "search.config.lang": "en", "search.config.pipeline": " ", "search.config.separator": "[\\s\\-]+", "search.placeholder": "\uac80\uc0c9", "search.result.more.one": "\uc774 \ubb38\uc11c\uc5d0\uc11c 1\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.more.other": "\uc774 \ubb38\uc11c\uc5d0\uc11c #\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.none": "\uac80\uc0c9\uc5b4\uc640 \uc77c\uce58\ud558\ub294 \ubb38\uc11c\uac00 \uc5c6\uc2b5\ub2c8\ub2e4", "search.result.one": "1\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.other": "#\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.placeholder": "\uac80\uc0c9\uc5b4\ub97c \uc785\ub825\ud558\uc138\uc694", "search.result.term.missing": "\ud3ec\ud568\ub418\uc9c0 \uc54a\uc740 \uac80\uc0c9\uc5b4", "select.version.title": "\ubc84\uc804 \uc120\ud0dd"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>

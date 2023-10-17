@@ -1,0 +1,1715 @@
+
+<!doctype html>
+<html lang="kr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>임차인 격리 - EKS Best Practices Guides</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.2505c338.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+
+  <script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-VQGL8B2FH8"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-VQGL8B2FH8",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-VQGL8B2FH8",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          콘텐츠로 이동
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="EKS Best Practices Guides" class="md-header__button md-logo" aria-label="EKS Best Practices Guides" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EKS Best Practices Guides
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              임차인 격리
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="검색" placeholder="검색" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="검색">
+        
+        <button type="reset" class="md-search__icon md-icon" title="지우기" aria-label="지우기" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            검색 초기화
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/aws/aws-eks-best-practices" title="저장소로 이동" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aws/aws-eks-best-practices
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="EKS Best Practices Guides" class="md-nav__button md-logo" aria-label="EKS Best Practices Guides" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    EKS Best Practices Guides
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/aws/aws-eks-best-practices" title="저장소로 이동" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    aws/aws-eks-best-practices
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          Guides
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Guides" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Guides
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Introduction ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Security" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        Home ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../iam/" class="md-nav__link">
+        Identity and Access Management ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pods/" class="md-nav__link">
+        Pod Security ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multitenancy/" class="md-nav__link">
+        Multi-tenancy ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../detective/" class="md-nav__link">
+        Detective Controls ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network/" class="md-nav__link">
+        Network Security ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data/" class="md-nav__link">
+        Data Encryption and Secrets Management ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runtime/" class="md-nav__link">
+        Runtime Security ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hosts/" class="md-nav__link">
+        Infrastructure Security ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compliance/" class="md-nav__link">
+        Regulatory Compliance ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../incidents/" class="md-nav__link">
+        Incident Response and Forensics ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../image/" class="md-nav__link">
+        Image Security ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Cluster Autoscaling
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Cluster Autoscaling" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Cluster Autoscaling
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../karpenter/" class="md-nav__link">
+        Karpenter ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cluster-autoscaling/" class="md-nav__link">
+        Cluster-Autoscaler ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Reliability
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Reliability" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Reliability
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reliability/docs/" class="md-nav__link">
+        Home ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reliability/docs/application/" class="md-nav__link">
+        Applications ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reliability/docs/controlplane/" class="md-nav__link">
+        Control Plane ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reliability/docs/dataplane/" class="md-nav__link">
+        Data Plane ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Windows Containers
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Windows Containers" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Windows Containers
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/ami/" class="md-nav__link">
+        AMI Management ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/gmsa/" class="md-nav__link">
+        gMSA for Windows Containers ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/hardening/" class="md-nav__link">
+        Windows Server Hardening ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/images/" class="md-nav__link">
+        Scanning Windows Images ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/licensing/" class="md-nav__link">
+        Windows Versions and Licensing ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/logging/" class="md-nav__link">
+        Logging ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/monitoring/" class="md-nav__link">
+        Monitoring Windows Containers ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/networking/" class="md-nav__link">
+        Windows Networking ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/oom/" class="md-nav__link">
+        Memory and Systems Management ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/patching/" class="md-nav__link">
+        Infrastructure Management ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/scheduling/" class="md-nav__link">
+        Scheduling ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/security/" class="md-nav__link">
+        Pod Security for Windows Containers ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows/docs/storage/" class="md-nav__link">
+        Storage Options ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          Networking
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Networking" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Networking
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../networking/index/" class="md-nav__link">
+        Home ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../networking/subnets/" class="md-nav__link">
+        VPC and Subnet Considerations ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../networking/vpc-cni/" class="md-nav__link">
+        Amazon VPC CNI ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../networking/prefix-mode/index_linux/" class="md-nav__link">
+        Prefix Mode for Linux ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../networking/prefix-mode/index_windows/" class="md-nav__link">
+        Prefix Mode for Windows ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../networking/ipv6/" class="md-nav__link">
+        Running IPv6 Clusters ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../networking/sgpp/" class="md-nav__link">
+        Security Groups per Pod ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../networking/custom-networking/" class="md-nav__link">
+        Custom Networking ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../networking/loadbalancing/loadbalancing/" class="md-nav__link">
+        Load Balancing ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../networking/monitoring/" class="md-nav__link">
+        Monitoring for Network performance issues ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Scalability
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Scalability" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Scalability
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../scalability/docs/" class="md-nav__link">
+        Home ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../scalability/docs/control-plane/" class="md-nav__link">
+        Control Plane ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../scalability/docs/data-plane/" class="md-nav__link">
+        Data Plane ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../scalability/docs/cluster-services/" class="md-nav__link">
+        Cluster Services ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../scalability/docs/workloads/" class="md-nav__link">
+        Workloads ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../scalability/docs/scaling_theory/" class="md-nav__link">
+        The theory behind scaling ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../scalability/docs/kcp_monitoring/" class="md-nav__link">
+        Control plane monitoring ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../scalability/docs/node_efficiency/" class="md-nav__link">
+        Node efficiency and scaling ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../upgrades/" class="md-nav__link">
+        Cluster Upgrades ({'name': 'English', 'build': True})
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="목차">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      목차
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    소프트 멀티테넌시
+  </a>
+  
+    <nav class="md-nav" aria-label="소프트 멀티테넌시">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    엔터프라이즈 설정
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    서비스형 쿠버네티스
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#saas" class="md-nav__link">
+    서비스형 소프트웨어(SaaS)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kubernetes" class="md-nav__link">
+    Kubernetes 구성
+  </a>
+  
+    <nav class="md-nav" aria-label="Kubernetes 구성">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    네임스페이스
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    네트워크 정책
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rbac" class="md-nav__link">
+    역할 기반 액세스 제어(RBAC)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    할당량
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    포드 우선순위 및 선점
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    완화 제어
+  </a>
+  
+    <nav class="md-nav" aria-label="완화 제어">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    컨테이너용 샌드박스 실행 환경
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opa" class="md-nav__link">
+    개방형 정책 에이전트(OPA) 및 게이트키퍼
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    카이베르노
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    테넌트 워크로드를 특정 노드로 격리
+  </a>
+  
+    <nav class="md-nav" aria-label="테넌트 워크로드를 특정 노드로 격리">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-" class="md-nav__link">
+    1부 - 노드 선호도
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-" class="md-nav__link">
+    파트 2 - 오염 및 허용
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-" class="md-nav__link">
+    3부 - 노드 선택을 위한 정책 기반 관리
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    참조
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    하드 멀티테넌시
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    향후 방향
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    다중 클러스터 관리 리소스
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <a href="https://github.com/aws/aws-eks-best-practices/edit/master/docs/security/docs/multitenancy.kr.md" title="이 페이지를 편집" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+<ul>
+<li class="i18n-link i18n-link-found i18n-link-en"><a href="../../../security/docs/multitenancy/">{'name': 'English', 'build': True}</a></li>
+</ul>
+<h1 id="_1">임차인 격리<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>다중 테넌시를 생각할 때 공유 인프라에서 실행되는 다른 사용자 또는 애플리케이션으로부터 사용자 또는 애플리케이션을 격리하려는 경우가 많습니다.</p>
+<p>Kubernetes는 <em>단일 테넌트 오케스트레이터</em> 입니다 . 즉, 컨트롤 플레인의 단일 인스턴스가 클러스터 내의 모든 테넌트 간에 공유됩니다. 그러나 다중 테넌시의 유사성을 생성하는 데 사용할 수 있는 다양한 Kubernetes 개체가 있습니다. 예를 들어 네임스페이스 및 RBAC(역할 기반 액세스 제어)를 구현하여 테넌트를 서로 논리적으로 격리할 수 있습니다. 마찬가지로 할당량 및 제한 범위를 사용하여 각 테넌트가 사용할 수 있는 클러스터 리소스의 양을 제어할 수 있습니다. 그럼에도 불구하고 클러스터는 강력한 보안 경계를 제공하는 유일한 구조입니다. 이는 클러스터 내의 호스트에 대한 액세스를 관리하는 공격자가 해당 호스트에 마운트된 <em>all</em> 비밀, ConfigMap 및 볼륨을 검색할 수 있기 때문입니다. 그들은 또한 Kubelet을 사칭하여 노드의 속성을 조작하거나 클러스터 내에서 측면으로 이동할 수 있습니다.</p>
+<p>다음 섹션에서는 Kubernetes와 같은 단일 테넌트 오케스트레이터를 사용하는 위험을 완화하면서 테넌트 격리를 구현하는 방법을 설명합니다.</p>
+<h2 id="_2">소프트 멀티테넌시<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>소프트 멀티 테넌시에서는 네임스페이스, 역할 및 역할 바인딩, 네트워크 정책과 같은 기본 Kubernetes 구조를 사용하여 테넌트 간에 논리적 분리를 생성합니다. 예를 들어 RBAC는 테넌트가 서로의 리소스에 액세스하거나 조작하는 것을 방지할 수 있습니다. 할당량 및 제한 범위는 각 테넌트가 사용할 수 있는 클러스터 리소스의 양을 제어하는 반면 네트워크 정책은 서로 다른 네임스페이스에 배포된 애플리케이션이 서로 통신하지 못하도록 방지할 수 있습니다.</p>
+<p>그러나 이러한 제어 중 어느 것도 다른 테넌트의 포드가 노드를 공유하는 것을 방지하지 않습니다. 더 강력한 격리가 필요한 경우 노드 선택기, 반선호도 규칙 및/또는 taint 및 toleration을 사용하여 다른 테넌트의 포드를 별도의 노드에 예약하도록 강제할 수 있습니다. 종종 <em>단독 테넌트 노드</em> 라고 합니다 . 테넌트가 많은 환경에서는 다소 복잡하고 비용이 많이 들 수 있습니다.</p>
+<div class="admonition 주목">
+<p class="admonition-title">주목</p>
+</div>
+<p>Namespaces로 구현된 Soft multi-tenancy는 Namespaces가 전역 범위 유형이기 때문에 필터링된 Namespaces 목록을 테넌트에게 제공할 수 없습니다. 테넌트가 특정 네임스페이스를 볼 수 있는 경우 클러스터 내의 모든 네임스페이스를 볼 수 있습니다.</p>
+<div class="admonition 경고">
+<p class="admonition-title">경고</p>
+</div>
+<p>소프트 멀티테넌시를 통해 테넌트는 기본적으로 클러스터 내에서 실행되는 모든 서비스에 대해 CoreDNS를 쿼리할 수 있는 기능을 유지합니다. 공격자 는 클러스터의 모든 포드에서 dig SRV <em>.</em> .svc.cluster.local을 실행하여 이를 악용할 수 있습니다. 클러스터 내에서 실행되는 서비스의 DNS 레코드에 대한 액세스를 제한해야 하는 경우 CoreDNS용 방화벽 또는 정책 플러그인을 사용하는 것이 좋습니다. 추가 정보는 <a href="https://github.com/coredns/policy#kubernetes-metadata-multi-tenancy-policy"> https://github.com/coredns/policy#kubernetes-metadata-multi-tenancy-policy </a>를 참조하십시오. ).</p>
+<p><a href="https://github.com/kiosk-sh/kiosk"> 키오스크 </a>는 소프트 멀티 테넌시의 구현을 지원할 수 있는 오픈 소스 프로젝트입니다. 다음 기능을 제공하는 일련의 CRD 및 컨트롤러로 구현됩니다.</p>
+<ul>
+<li>공유 Kubernetes 클러스터에서 테넌트를 분리하기 위한 <strong>계정 및 계정 사용자</strong></li>
+<li>계정 사용자를 위한 <strong>셀프 서비스 네임스페이스 프로비저닝</strong></li>
+<li>클러스터 공유 시 서비스 품질 및 공정성을 보장하기 위한 <strong>계정 제한</strong></li>
+<li>안전한 테넌트 격리 및 셀프 서비스 네임스페이스 초기화를 위한 <strong>네임스페이스 템플릿</strong></li>
+</ul>
+<p><a href="https://loft.sh"> Loft </a>는 다음 기능을 추가하는 Kiosk 및 <a href="https://github.com/devspace-cloud/devspace"> DevSpace </a>의 관리자가 제공하는 상용 제품입니다.</p>
+<ul>
+<li>다른 클러스터의 공간에 대한 액세스 권한을 부여하기 위한 <strong>멀티 클러스터 액세스</strong></li>
+<li><strong>절전 모드</strong> 는 비활성 기간 동안 공간에서 배포를 축소합니다.</li>
+<li><strong> GitHub와 같은 OIDC 인증 공급자를 사용한 싱글 사인온</strong></li>
+</ul>
+<p>소프트 멀티 테넌시로 해결할 수 있는 세 가지 기본 사용 사례가 있습니다.</p>
+<h3 id="_3">엔터프라이즈 설정<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>첫 번째는 "임차인"이 직원, 계약자이거나 조직에서 다른 방식으로 권한을 부여한다는 점에서 반신뢰되는 엔터프라이즈 환경에 있습니다. 각 테넌트는 일반적으로 부서 또는 팀과 같은 관리 부서에 맞춰집니다.</p>
+<p>이러한 유형의 설정에서 클러스터 관리자는 일반적으로 네임스페이스 생성 및 정책 관리를 담당합니다. 또한 특정 개인에게 네임스페이스를 감독하는 위임된 관리 모델을 구현하여 배포, 서비스, 포드, 작업 등과 같은 정책과 관련되지 않은 개체에 대한 CRUD 작업을 수행할 수 있습니다.</p>
+<p>컨테이너 런타임에서 제공하는 격리는 이 설정 내에서 허용되거나 포드 보안을 위한 추가 제어로 강화되어야 할 수 있습니다. 더 엄격한 격리가 필요한 경우 다른 네임스페이스의 서비스 간 통신을 제한해야 할 수도 있습니다.</p>
+<h3 id="_4">서비스형 쿠버네티스<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>반대로 소프트 멀티테넌시는 Kubernetes를 KaaS(Kubernetes as a Service)로 제공하려는 설정에서 사용할 수 있습니다. KaaS를 사용하면 애플리케이션이 일련의 PaaS 서비스를 제공하는 컨트롤러 및 CRD 모음과 함께 공유 클러스터에서 호스팅됩니다. 테넌트는 Kubernetes API 서버와 직접 상호 작용하며 비정책 개체에서 CRUD 작업을 수행할 수 있습니다. 테넌트가 자신의 네임스페이스를 만들고 관리할 수 있다는 점에서 셀프 서비스 요소도 있습니다 . 이러한 유형의 환경에서 테넌트는 신뢰할 수 없는 코드를 실행하는 것으로 간주됩니다.</p>
+<p><em>pod sandboxing</em> 을 구현해야 할 가능성이 높습니다 . 샌드박싱은 Firecracker와 같은 마이크로 VM 또는 사용자 공간 커널에서 포드의 컨테이너를 실행하는 곳입니다. 현재 EKS Fargate를 사용하여 샌드박스 포드를 생성할 수 있습니다.</p>
+<h3 id="saas">서비스형 소프트웨어(SaaS)<a class="headerlink" href="#saas" title="Permanent link">&para;</a></h3>
+<p>소프트 멀티테넌시의 최종 사용 사례는 SaaS(Software-as-a-Service) 설정입니다. 이 환경에서 각 테넌트는 클러스터 내에서 실행 중인 애플리케이션의 특정 <em>instance</em> 와 연결됩니다. 각 인스턴스에는 종종 자체 데이터가 있으며 일반적으로 Kubernetes RBAC와 독립적인 별도의 액세스 제어를 사용합니다.</p>
+<p>다른 사용 사례와 달리 SaaS 설정의 테넌트는 Kubernetes API와 직접 인터페이스하지 않습니다. 대신 SaaS 애플리케이션은 각 테넌트를 지원하는 데 필요한 객체를 생성하기 위해 Kubernetes API와의 인터페이스를 담당합니다.</p>
+<h2 id="kubernetes">Kubernetes 구성<a class="headerlink" href="#kubernetes" title="Permanent link">&para;</a></h2>
+<p>이러한 각 인스턴스에서 테넌트를 서로 격리하는 데 다음 구성이 사용됩니다.</p>
+<h3 id="_5">네임스페이스<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>네임스페이스는 소프트 멀티테넌시 구현의 기본입니다. 이를 통해 클러스터를 논리적 파티션으로 나눌 수 있습니다. 다중 테넌시를 구현하는 데 필요한 할당량, 네트워크 정책, 서비스 계정 및 기타 개체의 범위는 네임스페이스로 지정됩니다.</p>
+<h3 id="_6">네트워크 정책<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p>기본적으로 Kubernetes 클러스터의 모든 포드는 서로 통신할 수 있습니다. 이 동작은 네트워크 정책을 사용하여 변경할 수 있습니다.</p>
+<p>네트워크 정책은 레이블 또는 IP 주소 범위를 사용하여 포드 간의 통신을 제한합니다. 테넌트 간에 엄격한 네트워크 격리가 필요한 다중 테넌트 환경에서는 포드 간의 통신을 거부하는 기본 규칙과 모든 포드가 이름 확인을 위해 DNS 서버를 쿼리하도록 허용하는 다른 규칙으로 시작하는 것이 좋습니다. 이를 통해 네임스페이스 내에서 통신을 허용하는 더 많은 허용 규칙을 추가할 수 있습니다. 이는 필요에 따라 더 세분화할 수 있습니다.</p>
+<div class="admonition 주목">
+<p class="admonition-title">주목</p>
+</div>
+<p>네트워크 정책은 필요하지만 충분하지 않습니다. 네트워크 정책을 시행하려면 Calico 또는 Cilium과 같은 정책 엔진이 필요합니다.</p>
+<h3 id="rbac">역할 기반 액세스 제어(RBAC)<a class="headerlink" href="#rbac" title="Permanent link">&para;</a></h3>
+<p>역할 및 역할 바인딩은 Kubernetes에서 역할 기반 액세스 제어(RBAC)를 적용하는 데 사용되는 Kubernetes 개체입니다. <strong>역할</strong> 에는 클러스터의 개체에 대해 수행할 수 있는 작업 목록이 포함되어 있습니다. <strong>역할 결합</strong> 은 역할이 적용되는 개인 또는 그룹을 지정합니다. 엔터프라이즈 및 KaaS 설정에서 RBAC를 사용하여 선택한 그룹 또는 개인이 개체를 관리할 수 있습니다.</p>
+<h3 id="_7">할당량<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>할당량은 클러스터에서 호스팅되는 워크로드에 대한 제한을 정의하는 데 사용됩니다. 할당량을 사용하면 포드가 사용할 수 있는 최대 CPU 및 메모리 양을 지정하거나 클러스터 또는 네임스페이스에 할당할 수 있는 리소스 수를 제한할 수 있습니다. <strong>제한 범위</strong> 를 사용하면 각 제한에 대한 최소값, 최대값 및 기본값을 선언할 수 있습니다.</p>
+<p>공유 클러스터에서 리소스를 오버 커밋하면 리소스를 최대화할 수 있기 때문에 종종 유익합니다. 그러나 클러스터에 대한 제한 없는 액세스는 리소스 고갈을 유발할 수 있으며, 이는 성능 저하 및 애플리케이션 가용성 손실로 이어질 수 있습니다. Pod의 요청이 너무 낮게 설정되고 실제 리소스 사용률이 노드의 용량을 초과하면 노드에서 CPU 또는 메모리 압력이 발생하기 시작합니다. 이 경우 Pod가 다시 시작되거나 노드에서 제거될 수 있습니다.</p>
+<p>이를 방지하려면 다중 테넌트 환경에서 네임스페이스에 할당량을 부과하여 테넌트가 클러스터에서 포드를 예약할 때 요청 및 제한을 지정하도록 해야 합니다. 또한 포드가 소비할 수 있는 리소스 양을 제한하여 잠재적인 서비스 거부를 완화합니다.</p>
+<p>또한 할당량을 사용하여 테넌트의 지출에 맞게 클러스터의 리소스를 할당할 수 있습니다. 이는 KaaS 시나리오에서 특히 유용합니다.</p>
+<h3 id="_8">포드 우선순위 및 선점<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p>포드 우선 순위 및 선점은 다양한 고객에게 다양한 서비스 품질(QoS)을 제공하려는 경우에 유용할 수 있습니다. 예를 들어 포드 우선 순위를 사용하면 고객 A의 포드가 고객 B보다 높은 우선 순위로 실행되도록 구성할 수 있습니다. 사용 가능한 용량이 충분하지 않으면 Kubelet은 고객 B의 우선 순위가 낮은 포드를 제거하여 고객의 우선 순위가 높은 포드를 수용합니다. A. 프리미엄을 기꺼이 지불하려는 고객이 더 높은 품질의 서비스를 받는 SaaS 환경에서 특히 유용할 수 있습니다.</p>
+<h2 id="_9">완화 제어<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<p>다중 테넌트 환경의 관리자로서 귀하의 주요 관심사는 공격자가 기본 호스트에 대한 액세스 권한을 얻지 못하도록 방지하는 것입니다. 이 위험을 완화하려면 다음 제어를 고려해야 합니다.</p>
+<h3 id="_10">컨테이너용 샌드박스 실행 환경<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<p>샌드박싱은 각 컨테이너가 자체 격리된 가상 머신에서 실행되는 기술입니다. 포드 샌드박싱을 수행하는 기술에는 <a href="https://firecracker-microvm.github.io/"> Firecracker </a> 및 Weave의 <a href="https://www.weave.works/blog/firekube-fast-and-secure-kubernetes 가 포함됩니다. -clusters-using-weave-ignite"> Firekube </a>.</p>
+<p>AWS에서 자체 관리형 Kubernetes 클러스터를 구축하는 경우 <a href="https://github.com/kata-containers/documentation/wiki/Initial-release- 와 같은 대체 컨테이너 런타임을 구성할 수 있습니다. of-Kata-Containers-with-Firecracker-support"> Kata 컨테이너 </a>.</p>
+<p>Firecracker를 EKS에 대해 지원되는 런타임으로 만들기 위한 노력에 대한 추가 정보는 다음을 참조하십시오.
+<a href="https://threadreaderapp.com/thread/1238496944684597248.html"> https://threadreaderapp.com/thread/1238496944684597248.html </a>.</p>
+<h3 id="opa">개방형 정책 에이전트(OPA) 및 게이트키퍼<a class="headerlink" href="#opa" title="Permanent link">&para;</a></h3>
+<p><a href="https://github.com/open-policy-agent/gatekeeper"> Gatekeeper </a>는 <a href="https://www.openpolicyagent.org/"> OPA </a> 로 생성된 정책을 시행하는 Kubernetes 승인 컨트롤러입니다 . OPA를 사용하면 별도의 인스턴스 또는 다른 테넌트보다 더 높은 우선순위에서 테넌트의 포드를 실행하는 정책을 생성할 수 있습니다. 이 프로젝트에 대한 일반적인 OPA 정책 모음은 GitHub <a href="https://github.com/aws/aws-eks-best-practices/tree/master/policies/opa"> 리포지토리 </a>에서 찾을 수 있습니다.</p>
+<p>를 사용하여 CoreDNS에서 반환된 레코드를 필터링/제어할 수 있는 실험적인 <a href="https://github.com/coredns/coredns-opa"> CoreDNS용 OPA 플러그인 </a>도 있습니다.</p>
+<h3 id="_11">카이베르노<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<p><a href="https://kyverno.io"> Kyverno </a>는 정책을 Kubernetes 리소스로 사용하여 구성을 검증, 변경 및 생성할 수 있는 Kubernetes 기본 정책 엔진입니다. Kyverno는 유효성 검사를 위해 Kustomize 스타일 오버레이를 사용하고 변형을 위한 JSON 패치 및 전략적 병합 패치를 지원하며 유연한 트리거를 기반으로 네임스페이스 간에 리소스를 복제할 수 있습니다.</p>
+<p>Kyverno를 사용하여 네임스페이스를 격리하고, 포드 보안 및 기타 모범 사례를 적용하고, 네트워크 정책과 같은 기본 구성을 생성할 수 있습니다. 이 프로젝트 의 GitHub <a href="https://github.com/aws/aws-eks-best-practices/tree/master/policies/kyverno"> 리포지토리 </a>에 몇 가지 예제가 포함되어 있습니다. 다른 많은 것들이 Kyverno 웹사이트 의 <a href="https://kyverno.io/policies/"> 정책 라이브러리 </a>에 포함되어 있습니다.</p>
+<h3 id="_12">테넌트 워크로드를 특정 노드로 격리<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<p>특정 노드에서 실행되도록 테넌트 워크로드를 제한하면 소프트 다중 테넌시 모델에서 격리를 강화하는 데 사용할 수 있습니다. 이 접근 방식을 사용하면 테넌트별 워크로드는 각 테넌트에 대해 프로비저닝된 노드에서만 실행됩니다. 이러한 격리를 달성하기 위해 기본 Kubernetes 속성(노드 선호도, 오염 및 허용 오차)을 사용하여 Pod 예약을 위해 특정 노드를 대상으로 지정하고 다른 테넌트의 Pod가 테넌트별 노드에서 예약되지 않도록 합니다.</p>
+<h4 id="1-">1부 - 노드 선호도<a class="headerlink" href="#1-" title="Permanent link">&para;</a></h4>
+<p>Kubernetes <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity"> 노드 선호도 </a>는 노드 <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/"> 레이블 을 기반으로 예약 대상 노드에 사용됩니다. </a>. 노드 친화성 규칙을 사용하면 포드는 선택기 용어와 일치하는 특정 노드에 끌립니다. 아래 포드 사양에서 'requiredDuringSchedulingIgnoredDuringExecution' 노드 어피니티가 각 포드에 적용됩니다. 그 결과 포드는 <code>tenant: tenants-x</code> 키/값으로 레이블이 지정된 노드를 대상으로 합니다 .</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>...
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>사양 :
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  선호도 :
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    노드친화도 :
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>      requiredDuringSchedulingIgnoredDuringExecution :
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        nodeSelector조건 :
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>- matchExpressions :
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>- 키 : 테넌트
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>            연산자 : 안으로
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>            값 :
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>- 테넌트-x
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>...
+</code></pre></div>
+<p>이 노드 선호도를 사용하면 예약 중에는 레이블이 필요하지만 실행 중에는 필요하지 않습니다. 기본 노드의 레이블이 변경되면 해당 레이블 변경만으로 포드가 제거되지 않습니다. 그러나 향후 일정에 영향을 미칠 수 있습니다.</p>
+<div class="admonition 정보">
+<p class="admonition-title">정보</p>
+</div>
+<p>노드 선호도 대신 <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector"> 노드 선택기 </a>를 사용할 수 있습니다. 그러나 노드 어피니티는 표현력이 더 풍부하며 포드 스케줄링 중에 더 많은 조건을 고려할 수 있습니다. 차이점 및 고급 스케줄링 선택에 대한 추가 정보는 <a href="https://www.cncf.io/blog/2021/07/27/advanced-kubernetes- 에 대한 CNCF 블로그 게시물을 참조하십시오. Pod-to-node-scheduling/"> Advanced Kubernetes pod to node scheduling </a>.</p>
+<h4 id="2-">파트 2 - 오염 및 허용<a class="headerlink" href="#2-" title="Permanent link">&para;</a></h4>
+<p>Pod를 노드로 끌어들이는 것은 이 세 부분으로 구성된 접근 방식의 첫 번째 부분에 불과합니다. 이 접근 방식이 작동하려면 포드가 권한이 부여되지 않은 노드로 예약되지 않도록 포드를 밀어내야 합니다. 원치 않거나 승인되지 않은 포드를 방지하기 위해 Kubernetes는 노드 <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/"> taints </a>를 사용합니다. taint는 Pod가 예약되지 않도록 노드에 조건을 지정하는 데 사용됩니다. 아래 taint는 <code>tenant: tenants-x</code> 의 키-값 쌍을 사용합니다 .</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>...
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    오염 :
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>- 키 : 테넌트
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>        값 : 테넌트-x
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>        효과 : 스케줄 없음
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>...
+</code></pre></div>
+<p>위의 노드 <code>taint</code> 가 주어지면 오염을 <em>용인하는</em> 포드만 노드에서 예약할 수 있습니다. 승인된 포드가 노드에 예약되도록 하려면 각 포드 사양에 아래와 같이 taint에 대한 'toleration' 이 포함되어야 합니다.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>...
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  관용 :
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>- 효과 : NoSchedule
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    키 : 임차인
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    연산자 : 같음
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    값 : 테넌트-x
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>...
+</code></pre></div>
+<p>'toleration' 이 있는 포드 는 적어도 해당 특정 오염으로 인해 노드에서 스케줄링이 중지되지 않습니다. 테인트는 Kubernetes에서 노드 리소스 압력과 같은 특정 조건에서 Pod 예약을 일시적으로 중지하는 데에도 사용됩니다. 노드 선호도, taint 및 toleration을 통해 원하는 pod를 특정 노드로 효과적으로 유인하고 원치 않는 pod를 격퇴할 수 있습니다.</p>
+<div class="admonition 주목">
+<p class="admonition-title">주목</p>
+</div>
+<p>모든 노드에서 실행하려면 특정 Kubernetes 포드가 필요합니다. 이러한 포드의 예는 <a href="https://github.com/containernetworking/cni"> 컨테이너 네트워크 인터페이스(CNI) </a> 및 <a href="https://kubernetes.io/docs/reference/command 에 의해 시작된 포드입니다. -line-tools-reference/kube-proxy/"> kube-proxy </a> <a href="https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/"> daemonsets </a>. 이를 위해 이러한 팟(Pod)의 사양에는 다양한 오염을 허용하기 위해 매우 허용적인 허용 오차가 포함되어 있습니다. 이러한 허용 오차를 변경하지 않도록 주의해야 합니다. 이러한 내결함성을 변경하면 잘못된 클러스터 작업이 발생할 수 있습니다. 또한 <a href="https://github.com/open-policy-agent/gatekeeper"> OPA/Gatekeeper </a> 및 <a href="https://kyverno.io/"> Kyverno </a>와 같은 정책 관리 도구를 사용하여 작성할 수 있습니다. 승인되지 않은 팟(Pod)이 이러한 관대한 내결함성을 사용하지 못하도록 방지하는 정책을 검증합니다.</p>
+<h4 id="3-">3부 - 노드 선택을 위한 정책 기반 관리<a class="headerlink" href="#3-" title="Permanent link">&para;</a></h4>
+<p>CICD 파이프라인의 규칙 적용을 포함하여 포드 사양의 노드 선호도 및 내결함성을 관리하는 데 사용할 수 있는 몇 가지 도구가 있습니다. 그러나 격리 적용은 Kubernetes 클러스터 수준에서도 수행되어야 합니다. 이를 위해 정책 관리 도구를 사용하여 요청 페이로드를 기반으로 인바운드 Kubernetes API 서버 요청을 <em>변형</em> 하여 위에서 언급한 각 노드 선호도 규칙 및 허용을 적용할 수 있습니다.</p>
+<p>예를 들어 <em>tenants-x</em> 네임스페이스 로 향하는 포드는 <em>tenants-x</em> 노드 에서 예약을 허용하기 위해 올바른 노드 선호도 및 내결함성 을 사용하여 _스탬프_될 수 있습니다 . Kubernetes <a href="https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#mutatingadmissionwebhook"> Mutating Admission Webhook </a>를 사용하여 구성된 정책 관리 도구를 활용하여 정책을 사용하여 인바운드 포드를 변형할 수 있습니다. 명세서. 돌연변이는 원하는 일정을 허용하는 데 필요한 요소를 추가합니다. 노드 선호도를 추가하는 OPA/게이트키퍼 정책의 예는 아래에 나와 있습니다.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>apiVersion : mutations.gatekeeper.sh/v1alpha1
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>종류 : 할당
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>메타데이터 :
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>  이름 : mutator-add-nodeaffinity-pod
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>  주석 :
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    aws-eks-best-practices/description : &gt; -
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>노드 선호도 추가 - https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>사양 :
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>  적용 대상 :
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>- 그룹 : [ &quot;&quot; ]
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>    종류 : [ &quot;포드&quot; ]
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    버전 : [ &quot;v1&quot; ]
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>  일치 :
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>    네임스페이스 : [ &quot;tenants-x&quot; ]
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>  위치 : &quot;spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms&quot;
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>  매개변수 :
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>    할당 :
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>      값 :
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>- matchExpressions :
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>- 키 : &quot;임차인&quot;
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>            연산자 : 안으로
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>            값 :
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>- &quot;세입자-x&quot;
+</code></pre></div>
+<p><em>tenants-x</em> 네임스페이스 에 포드를 적용하기 위해 Kubernetes API 서버 요청에 적용됩니다 . 이 정책은 <code>requiredDuringSchedulingIgnoredDuringExecution</code> 노드 친화성 규칙을 추가하여 포드가 <code>tenant: tenants-x</code> 레이블이 있는 노드에 유인됩니다.</p>
+<p>아래에 표시된 두 번째 정책은 대상 네임스페이스와 그룹, 종류 및 버전의 동일한 일치 기준을 사용하여 동일한 포드 사양에 내결함성을 추가합니다.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>apiVersion : mutations.gatekeeper.sh/v1alpha1
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>종류 : 할당
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>메타데이터 :
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>  이름 : mutator-add-toleration-pod
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>  주석 :
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    aws-eks-best-practices/description : &gt; -
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>관용 추가 - https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>사양 :
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>  적용 대상 :
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>- 그룹 : [ &quot;&quot; ]
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    종류 : [ &quot;포드&quot; ]
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    버전 : [ &quot;v1&quot; ]
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>  일치 :
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    네임스페이스 : [ &quot;tenants-x&quot; ]
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>  위치 : &quot;사양 허용&quot;
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>  매개변수 :
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>    할당 :
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>      값 :
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>- 키 : &quot;임차인&quot;
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>        연산자 : &quot;같음&quot;
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>        값 : &quot;테넌트-x&quot;
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>        효과 : &quot;NoSchedule&quot;
+</code></pre></div>
+<p>위의 정책은 포드에만 적용됩니다. 이는 정책의 <code>location</code> 요소에서 변경된 요소에 대한 경로 때문입니다. 배포 및 작업 리소스와 같이 포드를 생성하는 리소스를 처리하기 위해 추가 정책을 작성할 수 있습니다. 나열된 정책 및 기타 예제는 다음을 위한 동반자 <a href="https://github.com/aws/aws-eks-best-practices/tree/master/policies/opa/gatekeeper/node-selector"> GitHub 프로젝트 </a> 에서 볼 수 있습니다. 이 가이드.</p>
+<p>이 두 변이의 결과는 포드가 원하는 노드에 끌리는 동시에 특정 노드 오염에 의해 반발되지 않는다는 것입니다. 이를 확인하기 위해 <code>tenant=tenants-x</code> 로 레이블이 지정된 노드를 가져 오고 <code>tenants-x</code> 네임스페이스 에서 포드를 가져 오기 위해 두 개의 <code>kubectl</code> 호출에서 출력 스니펫을 볼 수 있습니다.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>kubectl 노드 가져오기 -l 테넌트=테넌트-x
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>이름
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>IP-10-0-11-255...
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>IP-10-0-28-81...
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>IP-10-0-43-107...
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>kubectl -n tenants-x 팟(Pod) 가져오기 -owide
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>이름 준비 상태 다시 시작 연령 IP 노드
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>테넌트-테스트-배포-58b895ff87-2q7xw 1/1 실행 0 13s 10.0.42.143 ip-10-0-43-107...
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>테넌트-테스트-배포-58b895ff87-9b6hg 1/1 실행 0 13s 10.0.18.145 ip-10-0-28-81...
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>테넌트-테스트-배포-58b895ff87-nxvw5 1/1 실행 0 13s 10.0.30.117 ip-10-0-28-81...
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>테넌트-테스트-배포-58b895ff87-vw796 1/1 실행 중 0 13s 10.0.3.113 ip-10-0-11-255...
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>테넌트 테스트 포드 1/1 실행 0 13s 10.0.35.83 ip-10-0-43-107...
+</code></pre></div>
+<p>위 출력에서 볼 수 있듯이 모든 포드는 <code>tenant=tenants-x</code> 레이블이 지정된 노드에서 예약됩니다 . 간단히 말해서 포드는 원하는 노드에서만 실행되고 다른 포드(필수 친화성 및 내약성 없음)는 실행되지 않습니다. 테넌트 워크로드는 효과적으로 격리됩니다.</p>
+<p>변형된 포드 사양의 예는 아래에 나와 있습니다.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>api버전 : v1
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>종류 : 포드
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>메타데이터 :
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>  이름 : 테넌트 테스트 포드
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>  네임스페이스 : 테넌트-x
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>사양 :
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>  선호도 :
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    노드친화도 :
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>      requiredDuringSchedulingIgnoredDuringExecution :
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>        nodeSelector조건 :
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>- matchExpressions :
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>- 키 : 테넌트
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>            연산자 : 안으로
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>            값 :
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>- 테넌트-x
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>...
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>  관용 :
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>- 효과 : NoSchedule
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>    키 : 임차인
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>    연산자 : 같음
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>    값 : 테넌트-x
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>...
+</code></pre></div>
+<div class="admonition 주목">
+<p class="admonition-title">주목</p>
+</div>
+<p>변경 및 검증 승인 웹후크를 사용하여 Kubernetes API 서버 요청 흐름에 통합된 정책 관리 도구는 지정된 시간 내에 API 서버의 요청에 응답하도록 설계되었습니다. 일반적으로 3초 이하입니다. Webhook 호출이 구성된 시간 내에 응답을 반환하지 못하면 인바운드 API 서버 요청의 변형 및/또는 유효성 검사가 발생할 수도 있고 발생하지 않을 수도 있습니다. 이 동작은 허용 웹후크 구성이 <a href="https://open-policy-agent.github.io/gatekeeper/website/docs/#admission-webhook-fail-open- 기본적으로"> Fail Open 또는 Fail Close </a>.</p>
+<p>위의 예에서는 OPA/Gatekeeper용으로 작성된 정책을 사용했습니다. 그러나 노드 선택 사용 사례도 처리하는 다른 정책 관리 도구가 있습니다. 예를 들어 이 <a href="https://kyverno.io/policies/other/add_node_affinity/add_node_affinity/"> Kyverno 정책 </a>을 사용하여 노드 선호도 변경을 처리할 수 있습니다.</p>
+<div class="admonition 팁">
+<p class="admonition-title">팁</p>
+</div>
+<p>올바르게 작동하는 경우 변경 정책은 인바운드 API 서버 요청 페이로드에 원하는 변경 사항을 적용합니다. 그러나 변경 사항이 지속되도록 허용되기 전에 원하는 변경 사항이 발생하는지 확인하기 위한 검증 정책도 포함되어야 합니다. 이는 테넌트-노드 격리를 위해 이러한 정책을 사용할 때 특히 중요합니다. 클러스터에서 원하지 않는 구성이 있는지 정기적으로 확인하기 위해 <em>Audit</em> 정책을 포함하는 것도 좋은 생각 입니다.</p>
+<h3 id="_13">참조<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><a href="https://github.com/cruise-automation/k-rail"> k-rail </a> 특정 정책 시행을 통해 다중 테넌트 환경을 보호할 수 있도록 설계되었습니다.</p>
+</li>
+<li>
+<p><a href="https://d1.awsstatic.com/whitepapers/security-practices-for-multi-tenant-saas-apps-using-eks.pdf"> Amazon EKS를 사용하는 다중 테넌트 SaaS 애플리케이션에 대한 보안 사례 </a></p>
+</li>
+</ul>
+<h2 id="_14">하드 멀티테넌시<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<p>각 테넌트에 대해 별도의 클러스터를 프로비저닝하여 하드 멀티테넌시를 구현할 수 있습니다. 이렇게 하면 테넌트 간에 매우 강력한 격리가 제공되지만 몇 가지 단점이 있습니다.</p>
+<p>첫째, 테넌트가 많은 경우 이 접근 방식은 금세 비용이 많이 들 수 있습니다. 각 클러스터에 대한 컨트롤 플레인 비용을 지불해야 할 뿐만 아니라 클러스터 간에 컴퓨팅 리소스를 공유할 수 없습니다. 이로 인해 결국 클러스터의 하위 집합이 충분히 활용되지 않고 나머지는 과도하게 활용되는 조각화가 발생합니다.</p>
+<p>둘째, 이러한 모든 클러스터를 관리하려면 특수 도구를 구입하거나 구축해야 할 수 있습니다. 시간이 지나면 수백 또는 수천 개의 클러스터를 관리하는 것이 너무 어려워질 수 있습니다.</p>
+<p>마지막으로, 테넌트당 클러스터를 생성하는 것은 네임스페이스 생성에 비해 느립니다. 그럼에도 불구하고 규제가 엄격한 산업이나 강력한 격리가 필요한 SaaS 환경에서는 하드 테넌시 접근 방식이 필요할 수 있습니다.</p>
+<h2 id="_15">향후 방향<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h2>
+<p>쿠버네티스 커뮤니티는 소프트 멀티테넌시의 현재 단점과 하드 멀티테넌시의 문제점을 인식했습니다. <a href="https://github.com/kubernetes-sigs/multi-tenancy"> Multi-Tenancy SIG(Special Interest Group) </a>는 HNC(Hierarchical Namespace Controller) 및 가상 클러스터를 비롯한 여러 인큐베이션 프로젝트를 통해 이러한 단점을 해결하려고 시도하고 있습니다. .</p>
+<p>은 테넌트 관리자가 하위 네임스페이스를 생성할 수 있는 기능과 함께 [ 정책 ] 개체 상속을 사용하여 네임스페이스 간에 부모-자식 관계를 생성하는 방법을 설명합니다 .</p>
+<p>가상 클러스터 제안은 클러스터 내의 각 테넌트에 대해 API 서버, 컨트롤러 관리자 및 스케줄러를 포함하여 컨트롤 플레인 서비스의 별도 인스턴스를 생성하기 위한 메커니즘을 설명합니다("Kubernetes on Kubernetes"라고도 함).</p>
+<p><a href="https://github.com/kubernetes-sigs/multi-tenancy/blob/master/benchmarks/README.md"> Multi-Tenancy Benchmarks </a> 제안은 격리 및 세분화를 위한 네임스페이스와 명령을 사용하여 클러스터를 공유하기 위한 지침을 제공합니다. 라인 도구 <a href="https://github.com/kubernetes-sigs/multi-tenancy/blob/master/benchmarks/kubectl-mtb/README.md"> kubectl-mtb </a>를 사용하여 가이드라인 준수 여부를 확인합니다.</p>
+<h2 id="_16">다중 클러스터 관리 리소스<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://banzaicloud.com/"> 반자이 클라우드 </a></li>
+<li><a href="https://d2iq.com/solutions/ksphere/kommander"> 코맨더 </a></li>
+<li><a href="https://github.com/lensapp/lens"> 렌즈 </a></li>
+<li><a href="https://nirmata.com"> 니르마타 </a></li>
+<li><a href="https://rafay.co/"> 라페이 </a></li>
+<li><a href="https://rancher.com/products/rancher/"> 목장주 </a></li>
+<li><a href="https://www.weave.works/oss/flux/"> 위브 플럭스 </a></li>
+</ul>
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["tabs", "content.code.copy", "announce.dismiss", "header.autohide"], "search": "../../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "\ud074\ub9bd\ubcf4\ub4dc\uc5d0 \ubcf5\uc0ac\ub428", "clipboard.copy": "\ud074\ub9bd\ubcf4\ub4dc\ub85c \ubcf5\uc0ac", "search.config.lang": "en", "search.config.pipeline": " ", "search.config.separator": "[\\s\\-]+", "search.placeholder": "\uac80\uc0c9", "search.result.more.one": "\uc774 \ubb38\uc11c\uc5d0\uc11c 1\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.more.other": "\uc774 \ubb38\uc11c\uc5d0\uc11c #\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.none": "\uac80\uc0c9\uc5b4\uc640 \uc77c\uce58\ud558\ub294 \ubb38\uc11c\uac00 \uc5c6\uc2b5\ub2c8\ub2e4", "search.result.one": "1\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.other": "#\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.placeholder": "\uac80\uc0c9\uc5b4\ub97c \uc785\ub825\ud558\uc138\uc694", "search.result.term.missing": "\ud3ec\ud568\ub418\uc9c0 \uc54a\uc740 \uac80\uc0c9\uc5b4", "select.version.title": "\ubc84\uc804 \uc120\ud0dd"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>
